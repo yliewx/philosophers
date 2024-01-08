@@ -49,8 +49,8 @@ void	check_numeric(t_data *data, int argc, char **argv)
 		while (argv[j][i])
 		{
 			if (!(argv[j][i] >= '0' && argv[j][i] <= '9'))
-				end(data, "Error: Non-numeric or negative "\
-					"argument.\n", 1);
+				end(data, "Non-numeric or negative "\
+					"argument.\n", 1, parent);
 			i++;
 		}
 		j++;

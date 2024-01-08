@@ -53,15 +53,18 @@ void	unlink_semaphores(void)
 	sem_unlink(SEM_EXIT);
 }
 
-void	end(t_data *data, char *message, int exit_code)
+void	end(t_data *data, char *message, int exit_code, int process)
 {
 	if (message)
 		print_msg(message, 2);
 	if (data->philos)
 	{
 		close_semaphores(data);
-		unlink_semaphores();
-		end_processes(data);
+		if (process == parent)
+		{
+			unlink_semaphores();
+			end_processes(data);
+		}
 		free(data->philos);
 	}
 	exit(exit_code);

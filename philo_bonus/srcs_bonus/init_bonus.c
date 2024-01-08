@@ -17,7 +17,7 @@ void	create_sem(t_data *data, t_sem *sem, char *name, int value)
 	sem->name = name;
 	sem->ptr = sem_open(name, O_CREAT | O_EXCL, S_IRWXU, value);
 	if (sem->ptr == SEM_FAILED)
-		end(data, "Failed to create semaphore.\n", 1);
+		end(data, "Failed to create semaphore.\n", 1, parent);
 }
 
 void	init_semaphores(t_data *data)
@@ -44,7 +44,7 @@ void	init_philo_struct(t_data *data, t_philo *philo, int index)
 void	init_monitor_thread(t_data *data, t_philo *philo)
 {
 	if (pthread_create(&philo->monitor, NULL, monitor_routine, philo))
-		end(data, "Failed to initialise monitoring thread.\n", 1);
+		end(data, "Failed to create monitor thread.\n", 1, parent);
 }
 
 void	init_philosophers(t_data *data)
@@ -53,7 +53,7 @@ void	init_philosophers(t_data *data)
 
 	data->philos = malloc(data->total_philos * sizeof(t_philo));
 	if (!data->philos)
-		end(data, "Failed to allocate memory for philosophers.\n", 1);
+		end(data, "Memory allocation failed.\n", 1, parent);
 	i = 0;
 	while (i < data->total_philos)
 	{
@@ -64,9 +64,7 @@ void	init_philosophers(t_data *data)
 			init_monitor_thread(data, &data->philos[i]);
 			philo_routine(data, &data->philos[i]);
 			pthread_join(data->philos[i].monitor, NULL);
-			close_semaphores(data);
-			free(data->philos);
-			exit(EXIT_SUCCESS);
+			end(data, NULL, 0, child);
 		}
 		i++;
 	}

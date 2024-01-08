@@ -27,7 +27,7 @@ size_t	current_time(t_data *data)
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		end(data, "Failed gettimeofday().\n", 1);
+		end(data, "Failed gettimeofday().\n", 1, child);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 

@@ -87,6 +87,12 @@ typedef struct s_data
 	t_sem			exit_lock;
 }	t_data;
 
+enum e_process
+{
+	parent,
+	child,
+};
+
 /*init.c*/
 void	create_sem(t_data *data, t_sem *sem, char *name, int value);
 void	init_semaphores(t_data *data);
@@ -114,7 +120,7 @@ void	print_status(t_philo *philo, char *status);
 void	print_msg(char *message, int fd);
 
 /*exit_utils.c*/
-void	end(t_data *data, char *message, int exit_code);
+void	end(t_data *data, char *message, int exit_code, int process);
 void	close_semaphores(t_data *data);
 void	unlink_semaphores(void);
 void	wait_all_philos(t_data *data);

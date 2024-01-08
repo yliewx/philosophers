@@ -38,12 +38,12 @@ void	verify_params(t_data *data, int argc, char **argv)
 {
 	check_numeric(data, argc, argv);
 	if (data->total_philos > 200)
-		end(data, "Error: Philosophers should not exceed 200.\n", 1);
+		end(data, "Philosophers should not exceed 200.\n", 1, parent);
 	else if (data->total_philos < 1)
-		end(data, "Error: No philosophers.\n", 1);
+		end(data, "No philosophers found.\n", 1, parent);
 	if (data->time_to_die < 60 || data->time_to_eat < 60
 		|| data->time_to_sleep < 60)
-		end(data, "Error: Time values should not be <60 m/s.\n", 1);
+		end(data, "Time values should not be <60 m/s.\n", 1, parent);
 }
 
 int	main(int argc, char **argv)
@@ -62,6 +62,6 @@ int	main(int argc, char **argv)
 	if (data.meal_quota > 0)
 		wait_all_philos(&data);
 	sem_wait(data.exit_lock.ptr);
-	end(&data, NULL, 0);
+	end(&data, NULL, 0, parent);
 	return (0);
 }
